@@ -18,8 +18,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderProducer orderProducer;
 
-    public Order create() {
-        Order order = orderRepository.save(new Order(UUID.randomUUID()));
+    public Order create(UUID id) {
+        Order order = orderRepository.save(new Order(id));
         log.info("Order created: {}", order.getId());
 
         orderProducer.ordersToSend().send(MessageBuilder.withPayload(order).build());

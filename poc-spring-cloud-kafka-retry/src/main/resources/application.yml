@@ -18,3 +18,9 @@ spring:
         ordersReceived:
           group: orderReceivedGroup
           destination: orders-to-send
+feign:
+  client:
+    config:
+      feignName:
+        loggerLevel: full
+        errorDecoder: com.rios.pocspringcloudkafkaretry.infrastructure.CustomErrorDecoder

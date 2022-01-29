@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Order> createOrder() {
-        Order saved = orderService.create();
+        Order saved = orderService.create(UUID.randomUUID());
         return ResponseEntity.ok(saved);
     }
 }
