@@ -40,14 +40,14 @@ class OrderServiceTest {
             .withUsername("postgres");
 
     @Container
-    public static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka"));
+    public static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:6.2.1"));
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", () -> postgresSQLContainer.getJdbcUrl());
         registry.add("spring.datasource.username", () -> postgresSQLContainer.getUsername());
         registry.add("spring.datasource.password", () -> postgresSQLContainer.getPassword());
-        kafkaContainer.getBootstrapServers();
+        registry.add("spring.cloud.stream.kafka.binder.brokers", () -> kafkaContainer.getBootstrapServers());
     }
 
     @Test
