@@ -12,12 +12,18 @@ spring:
       kafka:
         binder:
           brokers: localhost
+        bindings:
+          ordersReceived:
+            consumer:
+              enableDlq: true
       bindings:
         ordersToSend:
           destination: orders-to-send
         ordersReceived:
           group: orderReceivedGroup
           destination: orders-to-send
+          consumer:
+            max-attempts: 2
 feign:
   client:
     config:

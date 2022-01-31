@@ -1,6 +1,7 @@
 package com.rios.pocspringcloudkafkaretry.service;
 
 import com.rios.pocspringcloudkafkaretry.domain.Order;
+import com.rios.pocspringcloudkafkaretry.exception.NotFoundException;
 import com.rios.pocspringcloudkafkaretry.infrastructure.OrderReceiverClient;
 import com.rios.pocspringcloudkafkaretry.repository.OrderRepository;
 import org.junit.jupiter.api.Assertions;
@@ -56,6 +57,19 @@ class OrderServiceTest {
         Order order = new Order(uuid);
 
         Mockito.when(orderReceiverClient.sendToOrderReceiver(order)).thenReturn(order);
+
+        orderService.create(uuid);
+
+        Assertions.assertEquals(1, orderRepository.findAll().size());
+
+    }
+
+    @Test
+    void Given_ValidOrder_When_CreateOrderAndOrderReceiverIsNotAvailable_Then_Retry3Times() {
+        UUID uuid = UUID.randomUUID();
+        Order order = new Order(uuid);
+
+        Mockito.when(orderReceiverClient.sendToOrderReceiver(order)).thenThrow(NotFoundException.class);
 
         orderService.create(uuid);
 
