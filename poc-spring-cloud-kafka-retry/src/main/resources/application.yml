@@ -23,7 +23,10 @@ spring:
           group: orderReceivedGroup
           destination: orders-to-send
           consumer:
-            max-attempts: 2
+            max-attempts: 3
+
+
+
 feign:
   client:
     config:

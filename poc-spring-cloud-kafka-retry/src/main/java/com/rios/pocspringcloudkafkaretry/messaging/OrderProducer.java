@@ -5,7 +5,9 @@ import org.springframework.messaging.MessageChannel;
 
 public interface OrderProducer {
 
-    @Output("ordersToSend")
+    String CHANNEL = "ordersToSend";
+
+    @Output(CHANNEL)
     MessageChannel ordersToSend();
 
 }
